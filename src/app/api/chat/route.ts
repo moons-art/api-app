@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
     
     console.log(`[CHAT] Using ${fileDataList.length} files for context`);
 
-    const model = getGeminiModel();
+    const model = await getGeminiModel();
     const contents = [
       ...fileDataList.map(fd => ({
         fileData: {
