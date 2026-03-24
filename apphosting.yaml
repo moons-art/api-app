@@ -1,0 +1,15 @@
+# Firebase App Hosting configuration
+# See https://firebase.google.com/docs/app-hosting/configure
+
+kind: "AppHostingConfig"
+schemaVersion: "v1"
+
+# The region to deploy the backend to.
+runConfig:
+  region: "asia-east1"
+
+# Example of environment variables if needed
+# env:
+#   - variable: MY_VARIABLE
+#     value: my_value
+#     availability: ["BUILD", "RUNTIME"]
