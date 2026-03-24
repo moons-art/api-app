@@ -188,7 +188,7 @@ export default function MainApp({ session, signInAction, signOutAction }: any) {
                 )}
               </div>
             ) : (
-              <PublicSidebar />
+              <PublicSidebar session={session} />
             )}
           </div>
         </aside>

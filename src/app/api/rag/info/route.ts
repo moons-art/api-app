@@ -1,8 +1,14 @@
 export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
+import { auth } from "@/auth";
 import { getKnowledgeBase } from "@/lib/firestore";
 
 export async function GET() {
+  const session = await auth();
+  if (!session) {
+    return NextResponse.json({ folders: [], files: [] }, { status: 401 });
+  }
+
   try {
     const config = await getKnowledgeBase();
     
