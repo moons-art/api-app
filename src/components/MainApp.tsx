@@ -152,8 +152,8 @@ export default function MainApp({ session, signInAction, signOutAction }: any) {
     <div className="absolute inset-0 md:p-6 flex flex-col gap-1 md:gap-4 font-sans overflow-hidden h-[100dvh]">
       
       {/* 1. Header (Consolidated) */}
-      <header className="shrink-0 h-[72px] apple-card apple-glass flex justify-between items-center px-2 md:px-6 transition-all relative z-40 bg-black/40">
-        <div className="flex items-center gap-3 md:gap-4 shrink-0 overflow-hidden">
+      <header className="shrink-0 h-[72px] apple-card apple-glass flex justify-between items-center px-2 md:px-6 transition-all relative z-[100] bg-black/40">
+        <div className="flex items-center gap-3 md:gap-4 shrink-0">
           <button 
             className="p-2 text-white/80 hover:text-white transition-all hover:bg-white/5 rounded-xl"
             onClick={() => setShowMobileMenu(!showMobileMenu)}
