@@ -2,11 +2,15 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getKnowledgeBase } from "@/lib/firestore";
+import { getAppSettings } from "@/lib/settings";
 
 export async function GET() {
   const session = await auth();
-  if (!session) {
-    return NextResponse.json({ folders: [], files: [] }, { status: 401 });
+  const settings = await getAppSettings();
+
+  // Admin always has access. Public users only when Master Switch is on.
+  if (!session && !settings.isMasterSwitchOn) {
+    return NextResponse.json({ folders: [], files: [], disabled: true }, { status: 503 });
   }
 
   try {

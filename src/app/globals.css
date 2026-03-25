@@ -71,12 +71,15 @@ h1, h2, h3 {
 
 /* Chat Specific Styles */
 .message-bubble {
-  padding: 0.75rem 1rem;
-  border-radius: 20px;
+  padding: 0.65rem 0.9rem;
+  border-radius: 18px;
   font-size: 0.95rem;
-  line-height: 1.625;
+  line-height: 1.5;
   max-width: 85%;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+.message-bubble p {
+  margin: 0;
 }
 .message-user {
   background-color: #007aff;

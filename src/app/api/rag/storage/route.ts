@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getStorageUsage } from "@/lib/gemini";
+import { getAppSettings } from "@/lib/settings";
 
 export async function GET(req: NextRequest) {
   const session = await auth();
-  if (!session) {
-    return NextResponse.json({ totalBytes: 0, fileCount: 0, limitBytes: 0 }, { status: 401 });
+  const settings = await getAppSettings();
+
+  // Admin always has access. Public users only when Master Switch is on.
+  if (!session && !settings.isMasterSwitchOn) {
+    return NextResponse.json({ totalBytes: 0, fileCount: 0, limitBytes: 0, disabled: true }, { status: 503 });
   }
 
   try {

@@ -7,8 +7,8 @@ const genAI = new GoogleGenerativeAI(apiKey);
 export const fileManager = new GoogleAIFileManager(apiKey);
 
 // 2026년 기준 가장 안정적인 표준 모델인 'gemini-2.5-flash'를 사용합니다. (이전: gemini-1.5-flash)
-export const getGeminiModel = async (modelName: string = "gemini-2.5-flash") => {
-  return genAI.getGenerativeModel({ model: modelName });
+export const getGeminiModel = async (modelName: string = "gemini-2.5-flash", systemInstruction?: string) => {
+  return genAI.getGenerativeModel({ model: modelName, systemInstruction });
 };
 
 /**

@@ -5,20 +5,19 @@ import { Database, Folder, FileText, ChevronRight, ChevronDown, Lock } from "luc
 
 export default function PublicSidebar({ session }: { session: any }) {
   const [storageUsage, setStorageUsage] = useState<any>(null);
-  const [info, setInfo] = useState<{ folders: any[], files: any[] }>({ folders: [], files: [] });
+  const [info, setInfo] = useState<{ folders: any[], files: any[], disabled?: boolean }>({ folders: [], files: [] });
   const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
-    if (!session) return;
     fetch("/api/rag/storage").then(r => r.json()).then(setStorageUsage).catch(console.error);
     fetch("/api/rag/info").then(r => r.json()).then(setInfo).catch(console.error);
   }, [session]);
 
-  if (!session) {
+  if (info.disabled) {
     return (
       <div className="flex flex-col h-full items-center justify-center p-8 text-center text-[#8e8e93] opacity-60 gap-3">
         <Lock size={32} className="mb-2 text-white/20" />
-        <p className="text-xs">학습된 자료 목록은 관리자 로그인 후<br/>확인하실 수 있습니다.</p>
+        <p className="text-xs">현재 서비스 점검 중입니다.<br/>잠시 후 다시 이용해 주세요.</p>
       </div>
     );
   }
