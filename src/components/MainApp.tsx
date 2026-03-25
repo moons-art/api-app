@@ -161,14 +161,31 @@ export default function MainApp({ session, signInAction, signOutAction }: any) {
             {showMobileMenu ? <X size={24} /> : <Menu size={24} />}
           </button>
           
-          <div 
-            className={`w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center text-white shadow-lg transition-all cursor-pointer ${
-              isAdmin ? "bg-amber-500 shadow-amber-500/20" : "bg-[#007aff] shadow-blue-500/20 hover:scale-105"
-            }`}
-            onClick={handleAdminToggle}
-            title={isAdmin ? "관리자 모드 종료" : "관리자 모드 로그인"}
-          >
-            {isAdmin ? <Unlock size={18} className="md:w-5 md:h-5" /> : <Moon size={20} className="md:w-5 md:h-5" />}
+          <div className="relative">
+            <div 
+              className={`w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center text-white shadow-lg transition-all cursor-pointer ${
+                isAdmin ? "bg-amber-500 shadow-amber-500/20" : "bg-[#007aff] shadow-blue-500/20 hover:scale-105"
+              }`}
+              onClick={handleAdminToggle}
+              title={isAdmin ? "관리자 모드 종료" : "관리자 모드 로그인"}
+            >
+              {isAdmin ? <Unlock size={18} className="md:w-5 md:h-5" /> : <Moon size={20} className="md:w-5 md:h-5" />}
+            </div>
+
+            {showPwdInput && !isAdmin && (
+              <form onSubmit={handlePwdSubmit} className="absolute left-0 top-[48px] flex items-center gap-2 bg-[#1c1c1e] p-2 rounded-xl border border-white/10 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-300 z-50 w-max">
+                <input 
+                  type="password"
+                  placeholder="Admin Pwd"
+                  value={pwd}
+                  onChange={(e) => setPwd(e.target.value)}
+                  autoFocus
+                  className="bg-white/5 text-white text-xs outline-none px-3 py-1.5 w-24 md:w-32 rounded-lg border border-white/5"
+                />
+                <button type="submit" className="bg-[#007aff] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg">확인</button>
+                <button type="button" onClick={() => setShowPwdInput(false)} className="text-white/40 hover:text-white p-1"><X size={14} /></button>
+              </form>
+            )}
           </div>
 
           <div className="hidden lg:flex flex-col justify-center border-l border-white/10 pl-4 ml-1">
@@ -204,41 +221,28 @@ export default function MainApp({ session, signInAction, signOutAction }: any) {
         
         <div className="flex items-center gap-3 shrink-0">
           {isAdmin && (
-            <div className="hidden xl:flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
-              <span className={`w-1.5 h-1.5 rounded-full ${isMasterOn ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" : "bg-red-500"}`}></span>
-              <span className="text-[10px] font-bold text-white/70 uppercase tracking-tighter">Public {isMasterOn ? "On" : "Off"}</span>
-              <button 
-                onClick={toggleMasterSwitch}
-                className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors focus:outline-none ${isMasterOn ? "bg-[#007aff]" : "bg-white/20"}`}
-              >
-                <span className={`inline-block h-2.5 w-2.5 transform rounded-full bg-white transition-transform ${isMasterOn ? "translate-x-3.5" : "translate-x-1"}`} />
-              </button>
-            </div>
-          )}
+            <>
+              <div className="hidden md:flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full">
+                <span className={`w-1.5 h-1.5 rounded-full ${isMasterOn ? "bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]" : "bg-red-500"}`}></span>
+                <span className="text-[10px] font-bold text-white/70 uppercase tracking-tighter">Public {isMasterOn ? "On" : "Off"}</span>
+                <button 
+                  onClick={toggleMasterSwitch}
+                  className={`relative inline-flex h-4 w-7 items-center rounded-full transition-colors focus:outline-none ${isMasterOn ? "bg-[#007aff]" : "bg-white/20"}`}
+                >
+                  <span className={`inline-block h-2.5 w-2.5 transform rounded-full bg-white transition-transform ${isMasterOn ? "translate-x-3.5" : "translate-x-1"}`} />
+                </button>
+              </div>
 
-          {session ? (
-            <button onClick={() => signOutAction()} className="p-2 text-[#8e8e93] hover:text-white transition-colors" title={session.user?.name + "님 로그아웃"}>
-              <LogOut size={20} />
-            </button>
-          ) : (
-            <button onClick={() => signInAction()} className="hidden sm:block bg-white text-black px-4 py-1.5 rounded-full text-xs font-bold hover:bg-gray-200 transition-colors">
-              Login
-            </button>
-          )}
-
-          {showPwdInput && !isAdmin && (
-            <form onSubmit={handlePwdSubmit} className="absolute right-4 top-[80px] flex items-center gap-2 bg-[#1c1c1e] p-2 rounded-xl border border-white/10 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-300 z-50">
-              <input 
-                type="password"
-                placeholder="Admin Pwd"
-                value={pwd}
-                onChange={(e) => setPwd(e.target.value)}
-                autoFocus
-                className="bg-white/5 text-white text-xs outline-none px-3 py-1.5 w-24 md:w-32 rounded-lg border border-white/5"
-              />
-              <button type="submit" className="bg-[#007aff] text-white text-[10px] font-bold px-3 py-1.5 rounded-lg">확인</button>
-              <button type="button" onClick={() => setShowPwdInput(false)} className="text-white/40 hover:text-white p-1"><X size={14} /></button>
-            </form>
+              {session ? (
+                <button onClick={() => signOutAction()} className="p-2 text-[#8e8e93] hover:text-white transition-colors" title={session.user?.name + "님 로그아웃"}>
+                  <LogOut size={20} />
+                </button>
+              ) : (
+                <button onClick={() => signInAction()} className="hidden sm:block bg-white text-black px-4 py-1.5 rounded-full text-xs font-bold hover:bg-gray-200 transition-colors">
+                  Login
+                </button>
+              )}
+            </>
           )}
         </div>
       </header>
